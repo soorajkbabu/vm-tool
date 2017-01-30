@@ -1,0 +1,108 @@
+<!--
+		Reference link: https://leafletjs.com/examples/mobile/
+		Requires https connection to get realtime location
+-->
+<html>
+<head>
+	<title>Mobile Map - Geolocation</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+
+	<style>
+		#map {
+			width: 600px;
+			height: 200px;
+		}
+	</style>
+
+	<style>body { padding: 0; margin: 0; } html, body, #map { height: 50vh; width: 100vw; }</style>
+</head>
+<body>
+
+<div id='map'></div>
+
+<script>
+//Map code - begin
+	var map = L.map('map').fitWorld();
+
+	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+		id: 'mapbox.streets'
+	}).addTo(map);
+
+	function onLocationFound(e) {
+		var radius = e.accuracy / 2;
+
+		L.marker(e.latlng).addTo(map)
+			.bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+		L.circle(e.latlng, radius).addTo(map);
+
+		//alert(e.latlng); //Location can be found out from e.latlng
+	}
+
+	function onLocationError(e) {
+		alert(e.message);
+	}
+
+	map.on('locationfound', onLocationFound);
+	map.on('locationerror', onLocationError);
+	//Function to update location
+	function locationUpdate(){
+		map.locate({setView: true, maxZoom: 16});
+	}
+	setInterval(locationUpdate,5000);	//Updates location every 5 seconds
+//Map code - end
+
+//Drag code - begin
+	/*function allowDrop(ev) {
+		ev.preventDefault();
+	}
+
+	function drag(ev) {
+	    ev.dataTransfer.setData("text", ev.target.id);
+	}
+
+	function drop(ev) {
+	    ev.preventDefault();
+	    var data = ev.dataTransfer.getData("text");
+	    ev.target.appendChild(document.getElementById(data));
+	}*/
+
+	//Button Operations
+	function OnClickEvent(buttonId){
+		if(buttonId == "streetLightButton"){
+				document.getElementById("streetLightList").disabled = false;
+		}
+	}
+</script>
+
+	<select id="streetLightButton" onclick="OnClickEvent('streetLightButton')">
+		<option value="streetLight">Street Light</option>
+		<option value="well">Well</option>
+		<option value="road">Road</option>
+	</select>
+
+	<select disabled="true" id="streetLightList">
+		<option value="requireStreetLight">Require a street light</option>
+		<<option value="damagedStreetLight">Damaged street light</option>
+	</select>
+
+	
+
+	</select>
+
+
+	<!--<img src="images/streetlight.png" draggable="true" ondragstart="drag(event)" name="streetlight" width="5%">-->
+
+</body>
+</html>
