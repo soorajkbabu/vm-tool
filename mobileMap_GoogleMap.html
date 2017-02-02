@@ -71,7 +71,7 @@ Google Map API Key: AIzaSyDYAOQQSk84Gut31oFyRbQ6XYC1oY_zzpw
         });
 
         // This event listener will call addMarker() when the map is clicked.
-        map.addListener('click', function(event) {
+        map.addListener('dblclick', function(event) {
           addMarker(event.latLng);
         });
 
