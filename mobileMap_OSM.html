@@ -80,14 +80,14 @@
 	}*/
 
 	//Button Operations
-	function OnClickEvent(buttonId){
-		if(buttonId == "streetLightButton"){
+	function listActivator(buttonId){
+		if(buttonId == "assetList"){
 				document.getElementById("streetLightList").disabled = false;
 		}
 	}
 </script>
 
-	<select id="streetLightButton" onclick="OnClickEvent('streetLightButton')">
+	<select id="streetLightButton" onclick="listActivator('assetList')">
 		<option value="streetLight">Street Light</option>
 		<option value="well">Well</option>
 		<option value="road">Road</option>
